@@ -25,12 +25,12 @@ const LoginPage = () => {
     e.preventDefault();
 
     if(!validateEmail(email)){
-      setError("Please enter correct Email...");
+      setError("Please enter correct Email..!!.");
       return;
     }
 
     if (!password) {
-      setError("Please enter the Password");
+      setError("Please enter the Password !!!");
       return;
     }
 
