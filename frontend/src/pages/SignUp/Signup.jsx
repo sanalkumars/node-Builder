@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing the icons
 import { validateEmail } from '../../utils/Helper';
 
@@ -10,6 +10,8 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const onChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -31,7 +33,7 @@ const SignUpPage = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp =  async (e) => {
     e.preventDefault();
 
     if (!username) {
@@ -54,9 +56,31 @@ const SignUpPage = () => {
       return;
     }
 
-    setError(""); // Clear any existing errors before submission
-    // Here we typically send the data to your backend for registration
-    console.log({ username, email, password }); 
+    const formData = { username, email, password };
+     console.log( " the data sent to backend is : ",formData);
+
+    try {
+      setError("");
+      //  sending the data from the form to the backend 
+
+       const response = await fetch('http://localhost:3000/api/user/signup',{
+        method:'POST',
+        headers:{ 'Content-type' : 'application/json'},
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      console.log("the data recived from backend is:" , data);
+
+      if(data){
+        navigate('/');
+      }
+
+      
+    } catch (error) {
+      setError(error.message);
+    }
+    
+    
   };
 
   return (
