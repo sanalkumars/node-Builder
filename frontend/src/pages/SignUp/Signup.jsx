@@ -71,7 +71,7 @@ const SignUpPage = () => {
       const data = await response.json();
       console.log("the data recived from backend is:" , data);
 
-      if(data){
+      if(response.ok){
         navigate('/');
       }
 
@@ -131,7 +131,7 @@ const SignUpPage = () => {
         </form>
         <div className="mt-4 text-center">
           <span>Already have an account?</span>
-          <Link to="/login" className="ml-2 text-blue-500 hover:text-blue-800">
+          <Link to="/login" className="ml-2 text-blue-500 hover:text-blue-800" >
             Log in
           </Link>
         </div>

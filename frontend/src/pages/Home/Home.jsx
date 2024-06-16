@@ -20,6 +20,8 @@ const HomePage = () => {
   };
 
   const handleCreateNote = (newNote) => {
+
+    //  here we send the data to the backend for newnote
     // Here you would typically update your application's state with the new note
     console.log('Created note:', newNote);
     setIsNewNoteFormVisible(false); // Close the form after submission

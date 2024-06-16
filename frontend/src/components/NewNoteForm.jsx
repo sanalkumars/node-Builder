@@ -8,7 +8,7 @@ const NewNoteForm = ({ onCreateNote }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim() ||!content.trim()) return; // Simple validation
-    onCreateNote({ title, content });
+    onCreateNote(title, content); // Corrected to pass two separate arguments
     setTitle('');
     setContent('');
   };

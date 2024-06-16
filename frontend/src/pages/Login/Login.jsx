@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing the icons
 import { validateEmail } from '../../utils/Helper';
 
@@ -7,7 +7,9 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
-  const [ error , setError ] = useState(null)
+  const [ error , setError ] = useState(null);
+
+  const navigate = useNavigate()
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -23,6 +25,10 @@ const LoginPage = () => {
 
   const handleLogin = async(e) =>{
     e.preventDefault();
+    const fromData ={email , password};
+    console.log("data to be send to the backend is :", fromData);
+
+    
 
     if(!validateEmail(email)){
       setError("Please enter correct Email..!!.");
@@ -34,7 +40,24 @@ const LoginPage = () => {
       return;
     }
 
-    setError("");
+    try {
+      setError("");
+      const res = await fetch('/api/user/login',{
+        method:"POST",
+        headers:{'Content-type':'application/json'},
+        body:JSON.stringify(FormData)
+      })
+
+      const data = res.json();
+      if (res.ok) {
+        navigate('/');
+      }
+      
+    } catch (error) {
+      
+    }
+
+    
   }
 
   return (

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
   const [searchItem, setSearchItem] = useState('');
+
 
   const handleSearch = (e) => {
     e.preventDefault(); // Prevent the form from submitting
@@ -11,7 +13,7 @@ const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
 
   return (
     <div className='bg-white flex items-center justify-between px-6 py-2 drop-shadow'>
-        <h2 className="text-xl font-medium text-black py-2">Notes</h2>
+        <Link to="/" className="text-xl font-medium text-black py-2">Notes</Link>
         <div className="relative w-full max-w-xs">
           <input 
             type="text" 

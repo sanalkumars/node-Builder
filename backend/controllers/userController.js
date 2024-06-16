@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcryptjs from 'bcryptjs'
 import { errorHandler } from "../utils/error.js";
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export const signup  = async ( req, res , next ) =>{
     console.log("inside the user signup");
