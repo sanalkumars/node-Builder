@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoute.js';
+import cookieParser from 'cookie-parser';
 const app = express();
 
 // use the middleware cors next
@@ -15,6 +16,7 @@ const corsOptions = {
   app.use(cors(corsOptions));
   
   app.use(express.json())
+//   app.use(cookieParser());
 
   // routes for user
 app.use('/api/user', userRoutes)

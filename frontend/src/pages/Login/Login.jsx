@@ -25,8 +25,8 @@ const LoginPage = () => {
 
   const handleLogin = async(e) =>{
     e.preventDefault();
-    const fromData ={email , password};
-    console.log("data to be send to the backend is :", fromData);
+    const formData ={email , password};
+    console.log("data to be send to the backend is :", formData);
 
     
 
@@ -42,13 +42,15 @@ const LoginPage = () => {
 
     try {
       setError("");
-      const res = await fetch('/api/user/login',{
+      const res = await fetch('http://localhost:3000/api/user/login',{
         method:"POST",
         headers:{'Content-type':'application/json'},
-        body:JSON.stringify(FormData)
+        body:JSON.stringify(formData),
+        credentials: 'include' 
       })
 
-      const data = res.json();
+      const data = await res.json();
+      console.log("data recived from backend is :",data);
       if (res.ok) {
         navigate('/');
       }
