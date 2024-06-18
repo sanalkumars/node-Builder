@@ -4,52 +4,41 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoute.js';
 import cookieParser from 'cookie-parser';
+
+dotenv.config();
+const jwtsec=process.env.JWT_SECRET
+console.log("secert is =",jwtsec);
 const app = express();
 
-// use the middleware cors next
 const corsOptions = {
-    origin: 'http://localhost:5173', // Specify the origin you want to allow
-    optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
-    credentials: true, // Include credentials in CORS requests
-  };
-  
-  app.use(cors(corsOptions));
-  
-  app.use(express.json())
-//   app.use(cookieParser());
+    origin: 'http://localhost:5173',
+    optionsSuccessStatus: 200,
+    credentials: true,
+};
 
-  // routes for user
-app.use('/api/user', userRoutes)
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
+app.use('/api/user', userRoutes);
 
-// invoking the dotenv
-dotenv.config();
-
-// starting the server
-const port = process.env.PORT || 5000;
-
-// sample route
-app.get('/',(req, res) =>{
-    res.status(200).json("hellow world");
-})
-
+app.get('/', (req, res) => {
+    res.status(200).json("Hello World");
+});
 
 mongoose.connect("mongodb://127.0.0.1:27017/Note_Builder")
-.then(()=>{
-    console.log("mongodb connected");
-})
-.catch(()=>{
-    console.log("failed to connect to mongodb");
-})
+    .then(() => {
+        console.log("mongodb connected");
+    })
+    .catch((error) => {
+        console.log("failed to connect to mongodb", error);
+    });
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log('Server is running on http://localhost:3000');
-  });
+    console.log(`Server is running on http://localhost:${port}`);
+});
 
-
-
-
-app.use((err,req,res,next) => {
-
+app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
     res.status(statusCode).json({

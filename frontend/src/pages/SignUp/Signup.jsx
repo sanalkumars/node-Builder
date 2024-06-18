@@ -63,11 +63,12 @@ const SignUpPage = () => {
       setError("");
       //  sending the data from the form to the backend 
 
-       const response = await fetch('http://localhost:3000/api/user/signup',{
-        method:'POST',
-        headers:{ 'Content-type' : 'application/json'},
+      const response = await fetch('http://localhost:3000/api/user/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
-      });
+    });
+    
       const data = await response.json();
       console.log("the data recived from backend is:" , data);
 
