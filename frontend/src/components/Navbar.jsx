@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
   const [searchItem, setSearchItem] = useState('');
+  const navigate = useNavigate();
 
 
   const handleSearch = (e) => {
@@ -11,9 +12,15 @@ const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
     console.log("The item search item entered by the user:", searchItem);
   };
 
+  const handleLogout =()=>{
+    console.log("logout success...");
+    localStorage.removeItem('authToken');
+    navigate('/');
+  }
+
   return (
     <div className='bg-white flex items-center justify-between px-6 py-2 drop-shadow'>
-        <Link to="/" className="text-xl font-medium text-black py-2">Notes</Link>
+        <Link to="/" className="text-xl font-medium text-black py-2">Note_Builder</Link>
         <div className="relative w-full max-w-xs">
           <input 
             type="text" 
@@ -31,6 +38,9 @@ const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
         </div>
         <button onClick={toggleProfilePopup} className="...">
           Profile
+        </button>
+        <button onClick={handleLogout} className="...">
+          SignOut
         </button>
         <button onClick={handleNewNoteClick} className="...">
           New Note

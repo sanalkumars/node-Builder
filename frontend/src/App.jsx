@@ -4,6 +4,7 @@ import HomePage from './pages/Home/Home';
 import LoginPage from './pages/Login/Login';
 import SignupPage from './pages/SignUp/Signup';
 import Dashboard from './pages/Dashboard/Dashboard';
+import PrivateRoute from './components/PrivateRoute';
 
 
 const routes =(
@@ -12,7 +13,7 @@ const routes =(
     <Route path="/" exact element={<HomePage />} />
     <Route path="/login" exact element={<LoginPage />} />
     <Route path="/signup" exact element={<SignupPage />} />
-    <Route path="/dashboard" exact element={<Dashboard />} /> 
+    <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
   </Routes>
 </Router>
 );

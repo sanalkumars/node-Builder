@@ -4,16 +4,16 @@ import { errorHandler } from "../utils/error.js";
 import jwt from 'jsonwebtoken';
 
 
-export const signup  = async ( req, res , next ) =>{
+export const signup = async (req, res, next) => {
     console.log("inside the user signup");
 
-    const{username , password , email } = req.body;
+    const { username, password, email } = req.body;
 
-    const hashedPass = bcryptjs.hashSync(password , 10);
+    const hashedPass = bcryptjs.hashSync(password, 10);
 
-    const existingUser =  await User.findOne({email});
-    if(existingUser){
-        return next( errorHandler(404," User already Exists"));
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        return next(errorHandler(404, " User already Exists"));
     }
 
     const newUser = new User({
@@ -24,7 +24,7 @@ export const signup  = async ( req, res , next ) =>{
 
     try {
         await newUser.save();
-        res.json({success: true, message:"Sign-Up Successfull"});
+        res.json({ success: true, message: "Sign-Up Successfull" });
     } catch (error) {
         next(error)
     }
@@ -32,43 +32,45 @@ export const signup  = async ( req, res , next ) =>{
 
 
 export const signin = async (req, res, next) => {
-  console.log("inside the login function");
+    console.log("inside the login function");
 
-  const jwtSecret = process.env.JWT_SECRET;
-  
+    const jwtSecret = process.env.JWT_SECRET;
 
-  const { email, password } = req.body;
 
-  if (!email || !password || email === "" || password === "") {
-      return next(errorHandler(400, "All fields are required!!!"));
-  }
+    const { email, password } = req.body;
 
-  try {
-      const validUser = await User.findOne({ email });
+    if (!email || !password || email === "" || password === "") {
+        return next(errorHandler(400, "All fields are required!!!"));
+    }
 
-      if (!validUser) {
-          return next(errorHandler(404, "User not found!!!"));
-      }
+    try {
+        const validUser = await User.findOne({ email });
 
-      const validPassword = bcryptjs.compareSync(password, validUser.password);
+        if (!validUser) {
+            return next(errorHandler(404, "User not found!!!"));
+        }
 
-      if (!validPassword) {
-          return next(errorHandler(404, "Wrong Credentials!!!"));
-      }
+        const validPassword = bcryptjs.compareSync(password, validUser.password);
 
-      const token = jwt.sign(
-          { id: validUser._id, email: validUser.email },
-          jwtSecret
-      );
+        if (!validPassword) {
+            return next(errorHandler(404, "Wrong Credentials!!!"));
+        }
 
-      const { password: pass, ...rest } = validUser.toObject();
+        const token = jwt.sign(
+            { id: validUser._id, email: validUser.email },
+            jwtSecret
+        );
 
-      res.status(200)
-          .cookie('access_token', token, { httpOnly: true })
-          .json(rest); 
+        const { password: pass, ...rest } = validUser.toObject();
 
-  } catch (error) {
-      next(error);
-  }
+        //   res.status(200)
+        //       .cookie('access_token', token, { httpOnly: true })
+        //       .json( rest, token); 
+        res.status(200)
+            .cookie('access_token', token, { httpOnly: true })
+            .json({ ...rest, token }); // Send token inside the response body
+
+    } catch (error) {
+        next(error);
+    }
 };
-  

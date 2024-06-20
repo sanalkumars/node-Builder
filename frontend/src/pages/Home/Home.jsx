@@ -1,52 +1,24 @@
-// HomePage.jsx
-import React, { useState } from 'react';
-import Navbar from '../../components/Navbar';
-import ProfileDetails from '../../components/ProfileDetails';
+
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Notes from '../../components/Notes';
-import NewNoteForm from '../../components/NewNoteForm'; // Ensure this import matches your file structure
+import '../Home/HomePage.css'; // Create this CSS file for styling
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [isProfilePopupVisible, setIsProfilePopupVisible] = useState(false);
-  const [isNewNoteFormVisible, setIsNewNoteFormVisible] = useState(false);
-
-  const toggleProfilePopup = () => {
-    setIsProfilePopupVisible(!isProfilePopupVisible);
-  };
-
-  const handleNewNoteClick = () => {
-    setIsNewNoteFormVisible(true);
-  };
-
-  const handleCreateNote = (newNote) => {
-
-    //  here we send the data to the backend for newnote
-    // Here you would typically update your application's state with the new note
-    console.log('Created note:', newNote);
-    setIsNewNoteFormVisible(false); // Close the form after submission
-  };
 
   return (
-    <div>
-      <Navbar toggleProfilePopup={toggleProfilePopup} handleNewNoteClick={handleNewNoteClick} />
-      {isProfilePopupVisible && (
-        <ProfileDetails 
-          onClose={() => setIsProfilePopupVisible(false)} 
-          username="JohnDoe" // Placeholder, replace with actual user data
-          email="john.doe@example.com" // Placeholder, replace with actual user data
-          onLogout={() => {
-            console.log('Logging out');
-            navigate('/login');
-            setIsProfilePopupVisible(false);
-          }}
-        />
-      )}
-      {isNewNoteFormVisible && (
-        <NewNoteForm onCreateNote={handleCreateNote} />
-      )}
-      <Notes />
-
+    <div className="homepage-container">
+      <header className="homepage-header">
+        <h1 className="site-name">Note_Builder</h1>
+        <div className="auth-buttons">
+          <button onClick={() => navigate('/login')} className="login-button">Login</button>
+          <button onClick={() => navigate('/signup')} className="signup-button">Signup</button>
+        </div>
+      </header>
+      <div className="welcome-section">
+        <h1 className="welcome-title">Welcome to Note_Builder</h1>
+        <p className="welcome-message">Create your notes for future reference</p>
+      </div>
     </div>
   );
 };

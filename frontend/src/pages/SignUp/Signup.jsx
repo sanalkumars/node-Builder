@@ -73,7 +73,7 @@ const SignUpPage = () => {
       console.log("the data recived from backend is:" , data);
 
       if(response.ok){
-        navigate('/');
+        navigate('/dashboard');
       }
 
       
