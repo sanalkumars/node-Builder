@@ -42,7 +42,7 @@ export const signin = async (req, res, next) => {
     if (!email || !password || email === "" || password === "") {
         return next(errorHandler(400, "All fields are required!!!"));
     }
-
+console.log(1);
     try {
         const validUser = await User.findOne({ email });
 
@@ -55,14 +55,14 @@ export const signin = async (req, res, next) => {
         if (!validPassword) {
             return next(errorHandler(404, "Wrong Credentials!!!"));
         }
-
+console.log(2);
         const token = jwt.sign(
             { id: validUser._id, email: validUser.email },
             jwtSecret
         );
 
         const { password: pass, ...rest } = validUser.toObject();
-
+console.log(3);
         //   res.status(200)
         //       .cookie('access_token', token, { httpOnly: true })
         //       .json( rest, token); 

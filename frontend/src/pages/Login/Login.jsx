@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { validateEmail } from '../../utils/Helper';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/user/userSlice';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onChangeEmail = (e) => {
@@ -47,12 +49,15 @@ const LoginPage = () => {
       });
 
       const data = await res.json();
+      console.log("data from the backend is :", data);
       if (res.ok) {
+        dispatch(setUser(data.user));
         localStorage.setItem('authToken', data.token); // Store token in localStorage
         navigate('/dashboard');
       } else {
         setError(data.message || "Login failed");
       }
+
     } catch (error) {
       setError("An error occurred during login.");
     }

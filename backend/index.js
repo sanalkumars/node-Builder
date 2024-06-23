@@ -6,8 +6,6 @@ import userRoutes from './routes/userRoute.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
-const jwtsec=process.env.JWT_SECRET
-console.log("secert is =",jwtsec);
 const app = express();
 
 const corsOptions = {
