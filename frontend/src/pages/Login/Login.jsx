@@ -51,7 +51,7 @@ const LoginPage = () => {
       const data = await res.json();
       console.log("data from the backend is :", data);
       if (res.ok) {
-        dispatch(setUser(data.user));
+        dispatch(setUser(data));
         localStorage.setItem('authToken', data.token); // Store token in localStorage
         navigate('/dashboard');
       } else {

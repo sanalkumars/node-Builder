@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing the icons
 import { validateEmail } from '../../utils/Helper';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/user/userSlice';
+
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
@@ -14,7 +13,7 @@ const SignUpPage = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  
 
   const onChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -76,8 +75,8 @@ const SignUpPage = () => {
       console.log("the data recived from backend is:" , data);
 
       if(response.ok){
-        dispatch(setUser(data.user));
-        navigate('/dashboard');
+        
+        navigate('/login');
       }
 
       

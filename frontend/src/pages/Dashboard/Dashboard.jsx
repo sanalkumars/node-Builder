@@ -38,8 +38,8 @@ const DashBoard = () => {
       {isProfilePopupVisible && (
         <ProfileDetails 
           onClose={() => setIsProfilePopupVisible(false)} 
-          username="JohnDoe" // Placeholder, replace with actual user data
-          email="john.doe@example.com" // Placeholder, replace with actual user data
+          username={userData.username} 
+          email={userData.email}
           onLogout={() => {
             console.log('Logging out');
             navigate('/login');
