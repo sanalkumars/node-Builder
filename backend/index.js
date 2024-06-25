@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoute.js';
 import cookieParser from 'cookie-parser';
+import noteRoutes from './routes/noteRoute.js';
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/user', userRoutes);
+app.use('/api/note', noteRoutes);
 
 app.get('/', (req, res) => {
     res.status(200).json("Hello World");

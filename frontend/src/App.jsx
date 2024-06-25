@@ -5,6 +5,8 @@ import LoginPage from './pages/Login/Login';
 import SignupPage from './pages/SignUp/Signup';
 import Dashboard from './pages/Dashboard/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import CreateNote from './pages/CreateNote';
+
 
 
 const routes =(
@@ -14,6 +16,7 @@ const routes =(
     <Route path="/login" exact element={<LoginPage />} />
     <Route path="/signup" exact element={<SignupPage />} />
     <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
+    <Route path='/note' element={<CreateNote />} />
   </Routes>
 </Router>
 );

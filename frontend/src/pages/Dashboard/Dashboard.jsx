@@ -14,27 +14,15 @@ const DashBoard = () => {
   console.log("current user from redux = ", userData);
 
   const [isProfilePopupVisible, setIsProfilePopupVisible] = useState(false);
-  const [isNewNoteFormVisible, setIsNewNoteFormVisible] = useState(false);
+  
 
   const toggleProfilePopup = () => {
     setIsProfilePopupVisible(!isProfilePopupVisible);
   };
 
-  const handleNewNoteClick = () => {
-    setIsNewNoteFormVisible(true);
-  };
-
-  const handleCreateNote = (newNote) => {
-
-    //  here we send the data to the backend for newnote
-    // Here you would typically update your application's state with the new note
-    console.log('Created note:', newNote);
-    setIsNewNoteFormVisible(false); // Close the form after submission
-  };
-
   return (
     <div className=''>
-      <Navbar toggleProfilePopup={toggleProfilePopup} handleNewNoteClick={handleNewNoteClick} />
+      <Navbar toggleProfilePopup={toggleProfilePopup} />
       {isProfilePopupVisible && (
         <ProfileDetails 
           onClose={() => setIsProfilePopupVisible(false)} 
@@ -47,10 +35,11 @@ const DashBoard = () => {
           }}
         />
       )}
-      {isNewNoteFormVisible && (
-        <NewNoteForm onCreateNote={handleCreateNote} />
-      )}
-      <Notes />
+      <div className='w-full'>
+        <Notes />
+      </div>
+
+      
 
     </div>
   );

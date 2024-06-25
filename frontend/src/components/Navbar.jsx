@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { clearUser } from '../redux/user/userSlice';
 
-const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
+const Navbar = ({ toggleProfilePopup }) => {
   const [searchItem, setSearchItem] = useState('');
   const navigate = useNavigate();
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleSearch = (e) => {
     e.preventDefault(); // Prevent the form from submitting
@@ -14,11 +14,27 @@ const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
     console.log("The item search item entered by the user:", searchItem);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     console.log("logout success...");
-    dispatch(clearUser());
-    localStorage.removeItem('authToken');
-    navigate('/');
+
+
+    try {
+      // http://localhost:3000 testing wheather the code will work without this 
+
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(clearUser());
+        localStorage.removeItem('authToken');
+        navigate('/');
+      }
+    } catch (error) {
+
+    }
   }
 
   return (
@@ -41,23 +57,23 @@ const Navbar = ({ toggleProfilePopup, handleNewNoteClick }) => {
       </div>
 
 
-      <button onClick={toggleProfilePopup} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
-        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-cyan-700 rounded-md group-hover:bg-opacity-0">
+      <button onClick={toggleProfilePopup} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
+        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-cyan-700 rounded-md group-hover:bg-opacity-0">
           Profile
         </span>
       </button>
 
-      <button onClick={handleLogout} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-cyan-700 rounded-md group-hover:bg-opacity-0">
+      <button onClick={handleLogout} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-cyan-700 rounded-md group-hover:bg-opacity-0">
           LogOut
         </span>
       </button>
 
 
-      <button onClick={handleNewNoteClick} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-cyan-700 rounded-md group-hover:bg-opacity-0">
+      <button  className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+        <Link to='/note' className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-cyan-700 rounded-md group-hover:bg-opacity-0">
           NewNote
-        </span>
+        </Link>
       </button>
 
     </div>
