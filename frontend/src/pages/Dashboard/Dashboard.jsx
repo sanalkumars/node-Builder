@@ -4,7 +4,6 @@ import Navbar from '../../components/Navbar';
 import ProfileDetails from '../../components/ProfileDetails';
 import { useNavigate } from 'react-router-dom';
 import Notes from '../../components/Notes';
-import NewNoteForm from '../../components/NewNoteForm'; // Ensure this import matches your file structure
 import { useSelector } from 'react-redux';
 
 const DashBoard = () => {
@@ -21,7 +20,7 @@ const DashBoard = () => {
   };
 
   return (
-    <div className=''>
+    <div className='w-full flex flex-col'>
       <Navbar toggleProfilePopup={toggleProfilePopup} />
       {isProfilePopupVisible && (
         <ProfileDetails 

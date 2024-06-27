@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import NoteCard from './NoteCard'; // Adjust the import path based on your file structure
 
 const Notes = () => {
   const [notesData, setNotesData] = useState([]);
@@ -26,22 +25,48 @@ const Notes = () => {
     };
 
     fetchNotes();
-  }, []);
+  }, [notesData]);
+
+
+  const deleteNote = async (noteId) => {
+   
+    try {
+      const response = await fetch(`/api/note/deleteNote/${noteId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setNotesData((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to delete note');
+      }
+    } catch (error) {
+      setError('An error occurred while deleting the note');
+    }
+  };
 
   return (
-    <div className='group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
-    <h2>Your Notes</h2>
-    {error && <p className="text-red-500">{error}</p>}
-    {notesData.length > 0 ? (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-        {notesData.map((note) => (
-          <NoteCard key={note._id} title={note.title} content={note.content} />
-        ))}
-      </div>
-    ) : (
-      <p>Create your note first</p>
-    )}
-  </div>
+    <div className='w-full h-3/5 flex flex-col items-center '>
+      <h2 className='text-2xl font-bold mb-4'>Your Notes</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      {notesData.length > 0 ? (
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full'>
+          {notesData.map((note) => (
+            <div key={note.id} className='bg-white p-4 rounded-lg shadow-md w-full flex flex-col'>
+              <h3 className='text-xl font-semibold'>{note.title}</h3>
+              <p className='mt-2 flex-grow'>{note.content}</p>
+              <div className='flex  justify-evenly px-3 mx-6'>
+              <button className='px-10 border-2 border-e-pink-400 rounded-xl hover:bg-blue-500'>Edit</button>
+              <button  onClick={() => deleteNote(note._id)} className='px-10 border-2 border-e-pink-400 rounded-xl hover:bg-red-600'>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>You have no notes</p>
+      )}
+    </div>
   );
 };
 

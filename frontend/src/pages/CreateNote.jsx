@@ -36,7 +36,8 @@ const CreateNote = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
+  <div className='w-full h-full flex justify-center mt-8  ' >
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-lg">
       <h3 className="text-lg font-semibold mb-4">Create a New Note</h3>
       <input
         type="text"
@@ -55,6 +56,10 @@ const CreateNote = () => {
         Create Note
       </button>
     </form>
+    <div className=' flex items-center justify-center'> 
+      <h2 className=' text-red-600'>{error}</h2>
+    </div>
+  </div>
   );
 };
 
