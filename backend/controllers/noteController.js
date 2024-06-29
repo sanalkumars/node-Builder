@@ -58,3 +58,20 @@ console.log(1);
         next(error)
     }
 }
+
+export const updateNote = async( req, res, next) =>{
+    const{ id }= req.params.Id;
+    console.log("id of the note to be deleted is :", id);
+    const{ title, content } = req.body;
+    try {
+        const updatednote = await Note.findByIdAndUpdate(id,{
+            title, content
+        }, {new:true});
+        if (!updateNote) {
+            return res.status(404).json({ message: 'Note not found' });
+        }
+        return res.status(200).json({ message:"Note Updated Successfully", note:updateNote});
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred while updating the note', error: error.message });
+    }
+}

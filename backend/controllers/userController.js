@@ -57,15 +57,15 @@ export const signin = async (req, res, next) => {
         }
 
         const token = jwt.sign(
-            { id: validUser._id, email: validUser.email },
+            { id: validUser._id, email: validUser.email }, 
             jwtSecret
         );
 
         const { password: pass, ...rest } = validUser.toObject();
 
         res.status(200)
-            .cookie('access_token', token, { httpOnly: true })
-            .json({ ...rest, token }); // Send token inside the response body
+            .cookie('access_token', token, { httpOnly: true ,maxAge: 24 * 60 * 60 * 1000, })
+            .json({ ...rest, token });
 
     } catch (error) {
         next(error);

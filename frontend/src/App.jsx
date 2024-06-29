@@ -17,6 +17,7 @@ const routes =(
     <Route path="/signup" exact element={<SignupPage />} />
     <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
     <Route path='/note' element={<CreateNote />} />
+    
   </Routes>
 </Router>
 );
